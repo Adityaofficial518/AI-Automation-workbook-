@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My AI Automation Journey — One Complete Workbook</title>
+<style>
+:root{--blue:#1a73e8;--green:#188038;--amber:#f9ab00;--bg:#f6f8fc;--card:#fff;--text:#202124;--muted:#5f6368;}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,#0b57d0,#1a73e8);color:#fff;padding:32px 20px;text-align:center}
+header h1{margin:0 0 8px;font-size:26px}header p{margin:0;opacity:.92}
+.wrap{max-width:1050px;margin:auto;padding:20px}
+.stats{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:-32px auto 22px}
+.stat{background:#fff;border-radius:14px;padding:16px 22px;box-shadow:0 2px 10px rgba(0,0,0,.08);text-align:center;min-width:150px}
+.stat b{display:block;font-size:24px;color:var(--blue)}
+.bar{height:14px;background:#e8eaed;border-radius:99px;overflow:hidden;margin:10px 0 25px}
+.bar div{height:100%;width:0;background:linear-gradient(90deg,#1a73e8,#188038);transition:.3s}
+.phase{background:var(--card);border-radius:16px;padding:22px;margin-bottom:22px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-top:5px solid var(--blue)}
+.phase.done{border-top-color:var(--green)}
+.badge{display:inline-block;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:bold;margin-bottom:10px}
+.b-blue{background:#e8f0fe;color:#0b57d0}.b-green{background:#e6f4ea;color:#188038}.b-amber{background:#fef7e0;color:#b06000}
+h2{margin:0 0 6px;font-size:21px;color:#0b57d0}.sub{color:var(--muted);font-size:14px;margin:0 0 14px}
+h3{margin:20px 0 8px;font-size:16px;color:#202124;border-left:4px solid var(--blue);padding-left:10px}
+h4{margin:14px 0 6px;font-size:14px;color:#0b57d0}
+label{display:flex;gap:10px;align-items:flex-start;padding:7px 10px;border-radius:10px;cursor:pointer}
+label:hover{background:#f1f3f4}
+input[type=checkbox]{width:18px;height:18px;margin-top:2px;accent-color:var(--blue)}
+input[type=checkbox]:checked+span{text-decoration:line-through;color:#5f6368}
+.next{background:#e6f4ea;border-left:4px solid var(--green);padding:12px;border-radius:8px;font-size:14px;margin-top:14px}
+.warn{background:#fef7e0;border-left:4px solid var(--amber);padding:12px;border-radius:8px;font-size:14px;margin-top:14px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{border:1px solid #dadce0;padding:9px;text-align:left}th{background:#f1f3f4}
+pre{white-space:pre-wrap;background:#f1f3f4;padding:14px;border-radius:10px;font-size:14px;overflow:auto}
+.reset{background:#fff;color:#d93025;border:1px solid #d93025;padding:10px 18px;border-radius:10px;cursor:pointer;font-weight:bold}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:20px}
+</style>
+</head>
+<body>
+<header><h1>My AI Automation Journey</h1><p>One Complete Workbook | Google AI + n8n + AI Agents + Clients | Beginner to ₹1.5 Lakh/Month</p></header>
+<div class="wrap">
+<div class="stats"><div class="stat"><b id="doneCount">0</b>Completed</div><div class="stat"><b id="totalCount">0</b>Total Steps</div><div class="stat"><b id="percent">0%</b>Progress</div></div>
+<div class="bar"><div id="progressBar"></div></div>
+<div class="note"><b>How to use this workbook:</b> This is your <b>only</b> workbook. Follow phases strictly in order. Complete every topic and the <b>Gate</b> before moving ahead. Do not rush. Your progress saves automatically in this browser.</div>
+
+<div id="phases"></div>
+
+<div style="text-align:center;margin:30px 0"><button class="reset" onclick="resetProgress()">Reset All Progress</button></div>
+</div>
+<footer>One Workbook. One Path. Learn slowly, build daily, earn step by step.</footer>
+
+<script>
+const storeKey="aiAutomationOneWorkbookV1";
+let progress=JSON.parse(localStorage.getItem(storeKey)||"{}");
+function idFor(s,i){return btoa(unescape(encodeURIComponent(s+"|"+i))).replace(/[^a-zA-Z0-9]/g,"");}
+function renderChecklist(cid,section,items){const box=document.getElementById(cid);items.forEach(item=>{const id=idFor(section,item);const l=document.createElement("label");l.innerHTML=`<input type="checkbox" id="${id}" ${progress[id]?"checked":""}><span>${item}</span>`;l.querySelector("input").addEventListener("change",e=>{progress[id]=e.target.checked;localStorage.setItem(storeKey,JSON.stringify(progress));updateStats();});box.appendChild(l);});}
+function updateStats(){const b=[...document.querySelectorAll('input[type=checkbox]')];const d=b.filter(x=>x.checked).length;document.getElementById("doneCount").textContent=d;document.getElementById("totalCount").textContent=b.length;const p=b.length?Math.round(d/b.length*100):0;document.getElementById("percent").textContent=p+"%";document.getElementById("progressBar").style.width=p+"%";}
+function resetProgress(){if(confirm("Reset all progress?")){progress={};localStorage.removeItem(storeKey);[...document.querySelectorAll('input[type=checkbox]')].forEach(x=>x.checked=false);updateStats();}}
+
+const phases=[
+{num:1,title:"Phase 1: Setup & Foundation",time:"Days 1–3",color:"b-blue",goal:"Prepare all accounts, tools, and learning habits.",topics:["Create/use one personal Gmail account","Create Google Developer Program profile","Create n8n free account","Join Google Developer Community Discord","Create LinkedIn profile","Create WhatsApp Business profile","Set daily study time: 2–3 hours","Create folder for screenshots and workflow exports","Understand: automation saves repetitive work","Understand: my goal is AI Automation & Agentic Workflow Builder","Understand: I will follow only this workbook"],gate:"All accounts created; daily study time fixed.",next:"Go to Phase 2: Gemini AI Basics."},
+{num:2,title:"Phase 2: Gemini AI Basics",time:"Days 4–10",color:"b-blue",goal:"Understand AI and learn to give clear instructions.",topics:["Complete Gemini’s AI Work Workshop","Earn workshop certificate","Start Introduction to Generative AI","Understand Generative AI","Understand AI vs ML vs Generative AI","Complete Introduction to Generative AI quiz","Earn Google Cloud credential","Learn what a prompt is","Write 10 practice prompts in Gemini","Practise: summarise a customer enquiry","Practise: write a polite follow-up email","Practise: write 5 WhatsApp replies","Practise: classify a lead as hot/warm/cold","Save all best prompts in a document"],gate:"Gemini workshop + Generative AI course completed; 10 prompts practised.",next:"Go to Phase 3: n8n Foundations."},
+{num:3,title:"Phase 3: n8n Foundations",time:"Days 11–20",color:"b-blue",goal:"Learn how automation workflows work.",topics:["Complete n8n Quickstart","Understand workflow canvas","Understand trigger","Understand node","Understand connection","Understand execution","Understand data mapping","Create first blank workflow","Add and delete nodes","Connect two nodes","Run workflow manually","Save and rename workflow","Import a template","Export workflow as JSON","Build: Manual trigger → Set node → test","Understand JSON structure","Understand input and output data"],gate:"n8n Quickstart complete; first workflow built and tested.",next:"Go to Phase 4: Google Tools Automation."},
+{num:4,title:"Phase 4: Google Tools Automation",time:"Days 21–30",color:"b-blue",goal:"Connect Google Forms, Sheets, and Gmail.",topics:["Connect Google account to n8n","Learn Google Sheets nodes","Sheets: read data","Sheets: append row","Sheets: update row","Learn Google Forms trigger","Capture form response","Learn Gmail node","Send email from n8n","Build: Google Form → Google Sheets","Build: Google Form → Sheets → Gmail alert","Build: Daily schedule → reminder email","Test each workflow with sample data","Screenshot all workflows"],gate:"Three working Google-tool workflows built and tested.",next:"Go to Phase 5: LLMs & Responsible AI."},
+{num:5,title:"Phase 5: LLMs & Responsible AI",time:"Days 31–38",color:"b-amber",goal:"Understand how AI models work and use them safely.",topics:["Complete Introduction to Large Language Models","Understand LLM","Understand prompts deeply","Understand model parameters","Complete LLM quiz","Earn Google Cloud badge","Complete Introduction to Responsible AI","Understand bias","Understand privacy","Understand accountability","Complete Responsible AI quiz","Earn Google Cloud badge","Write rules for safe customer-data handling"],gate:"LLM + Responsible AI courses completed with badges.",next:"Go to Phase 6: AI-Powered Automations."},
+{num:6,title:"Phase 6: AI-Powered Automations",time:"Days 39–50",color:"b-green",goal:"Connect Gemini AI to real workflows.",topics:["Add Gemini/AI node in n8n","Connect AI model","Send form data to Gemini","Receive AI response","Save AI response in Google Sheets","Send AI response by email","Build: Form → Gemini summary → email","Build: Customer question → Gemini answer","Build: Lead classification with Gemini","Build: AI follow-up email workflow","Test with 5 sample leads","Improve prompts based on results"],gate:"Four AI-powered workflows built and tested.",next:"Go to Phase 7: AI Agents."},
+{num:7,title:"Phase 7: AI Agents",time:"Days 51–60",color:"b-green",goal:"Build an AI assistant that can answer and act.",topics:["Understand AI agent vs chatbot","Understand agent tools","Understand agent memory","Understand system instructions","Build FAQ AI assistant","Give agent Google Sheets knowledge","Give agent email ability","Test agent with 10 questions","Handle unknown questions politely","Improve agent prompts","Record screen-recording demo","Post agent project on LinkedIn"],gate:"Working FAQ AI agent built, tested, and demo recorded.",next:"Go to Phase 8: Web Basics for Automation."},
+{num:8,title:"Phase 8: Web Basics for Automation",time:"Days 61–70",color:"b-amber",goal:"Learn enough web development to capture leads.",topics:["Learn HTML basics","Learn headings, paragraphs, links, images","Learn forms and buttons","Learn CSS basics","Learn colours, fonts, layout","Build simple landing page","Add enquiry form","Connect form to n8n webhook","Save enquiry in Google Sheets","Send automatic email reply","Test full flow: form → webhook → Sheets → email"],gate:"Landing page connected to working automation.",next:"Go to Phase 9: Portfolio & First Clients."},
+{num:9,title:"Phase 9: Portfolio & First Clients",time:"Days 71–85",color:"b-green",goal:"Create demo projects and contact real businesses.",topics:["Build: Coaching-centre lead automation","Build: Salon/gym appointment reminder","Build: Shop FAQ assistant","Record demo videos for all three","Create LinkedIn portfolio posts","Prepare service list","Prepare pricing packages","Write client message templates","Contact 10 local businesses","Follow up after 2–3 days","Contact 10 more businesses","Get first free/paid demo client"],gate:"3 portfolio demos ready; 20+ businesses contacted; first client conversation started.",next:"Go to Phase 10: First Client Project."},
+{num:10,title:"Phase 10: First Client Project",time:"Days 86–95",color:"b-green",goal:"Deliver a real automation and collect a testimonial.",topics:["Collect client requirements","Identify repetitive task","Design workflow on paper","Build automation","Test with client data","Fix errors","Deliver project","Explain system to client","Ask for testimonial/review","Add project to portfolio","Post case study on LinkedIn"],gate:"First client project delivered and testimonial collected.",next:"Go to Phase 11: Advanced Skills for High-Paying Clients."},
+{num:11,title:"Phase 11: Advanced — High-Value Systems",time:"Days 96–180",color:"b-amber",goal:"Learn skills for ₹25,000–₹1.5 lakh monthly clients.",topics:["Learn REST APIs deeply","Learn authentication and API keys","Learn webhooks security","Learn JSON transformation","Learn error workflows and retry logic","Learn rate limits","Learn data validation","Learn WhatsApp Business API","Learn WhatsApp message templates","Learn CRM basics: HubSpot/Zoho/Salesforce","Learn lead scoring","Learn lead routing","Learn sales-pipeline automation","Learn RAG basics","Learn vector database basics","Learn document/invoice parsing","Learn reporting dashboards","Build multi-channel lead capture system","Build WhatsApp AI sales assistant","Build CRM lead-entry automation","Build appointment + follow-up system","Build daily management report","Create 3 advanced case studies","Learn client onboarding","Learn proposal writing","Learn SLA and managed support","Target ₹25,000–₹80,000 monthly retainers","Target ₹80,000–₹1.5 lakh managed systems"],gate:"3 advanced case studies ready; able to pitch managed AI operations at ₹25k–₹1.5L/month.",next:"Continue improving, collecting testimonials, and raising prices."}
+];
+
+const container=document.getElementById("phases");
+phases.forEach(p=>{
+  const div=document.createElement("div");
+  div.className="phase";
+  div.id="phase-"+p.num;
+  div.innerHTML=`<span class="badge ${p.color}">Phase ${p.num} • ${p.time}</span><h2>${p.title}</h2><p class="sub"><b>Goal:</b> ${p.goal}</p><div id="ph-${p.num}"></div><div class="next"><b>✅ Gate:</b> ${p.gate}<br><b>➡️ Next:</b> ${p.next}</div>`;
+  container.appendChild(div);
+  renderChecklist("ph-"+p.num,p.title,p.topics);
+});
+
+// Auto-mark current phase green when all its boxes ticked
+function refreshPhaseColors(){
+  document.querySelectorAll(".phase").forEach(ph=>{
+    const boxes=ph.querySelectorAll('input[type=checkbox]');
+    const all=[...boxes].every(b=>b.checked);
+    ph.classList.toggle("done",all&&boxes.length>0);
+  });
+}
+const origUpdate=updateStats;
+updateStats=function(){origUpdate();refreshPhaseColors();};
+updateStats();
+</script>
+</body>
+</html>
